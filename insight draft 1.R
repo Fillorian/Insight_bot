@@ -81,7 +81,7 @@ server <- function(input, output, session) {
         select(TITLE, BRAND, `NET SALES`, MARGIN) %>%
         rename(NET_SALES = `NET SALES`) %>%
         arrange(desc(across(input$metric))) %>%
-       # mutate(TITLE = factor(TITLE, levels = unique(TITLE))) %>%
+        mutate(TITLE = factor(TITLE, levels = unique(TITLE))) %>%
         slice(1:input$top_x),
       aes_string(x = "TITLE", y = input$metric, fill = "BRAND") +
         geom_col() +
