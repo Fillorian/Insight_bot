@@ -75,6 +75,9 @@ server <- function(input, output, session) {
     })
   
   output$plot <- renderPlot({
+    
+    mtr <- input$metric
+    
     ggplot(
       data = read_xlsx("Daily Sales/test.xlsx") %>%
         filter(TYPE == input$type) %>%
@@ -83,14 +86,15 @@ server <- function(input, output, session) {
         arrange(desc(across(input$metric))) %>%
         mutate(TITLE = factor(TITLE, levels = unique(TITLE))) %>%
         slice(1:input$top_x),
-      aes(x = TITLE, y = .data[[input$metric]], fill = BRAND) +
-        geom_col() +
-        scale_size_continuous(guide = "none") 
-    )
+      aes_string(x = "TITLE", y = input$metric, fill = "BRAND")) +
+      geom_col() +
+      scale_size_continuous(guide = "none") +
+      coord_flip()
   })
   
   output$report <- renderText({
-    paste0(input$type, " category Titles with the top ", input$metric, " are:")
+    paste0("Insight ", input$type, ":", "\n", "\n",
+           "Dope ass insight report text here.")
   })
 }
 
