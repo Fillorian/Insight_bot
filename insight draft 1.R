@@ -83,7 +83,7 @@ server <- function(input, output, session) {
         arrange(desc(across(input$metric))) %>%
         mutate(TITLE = factor(TITLE, levels = unique(TITLE))) %>%
         slice(1:input$top_x),
-      aes_string(x = "TITLE", y = input$metric, fill = "BRAND") +
+      aes(x = TITLE, y = .data[[input$metric]], fill = BRAND) +
         geom_col() +
         scale_size_continuous(guide = "none") 
     )
